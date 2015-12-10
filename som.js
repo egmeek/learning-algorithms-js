@@ -40,8 +40,11 @@ function step() {
 	lastDistance = 1;
 	thisDistance = 1;
 
+	// Draw input:
+	drawVector(canvas, context, input, nodeSize * 2, '#ff0000');
+
+	// Activation and similarity matching:
 	for (var j = 0; j < weights.length; ++j) {
-		// Activation and similarity matching:
 		thisDistance = euclidDist(input, weights[j]);
 
 		if (thisDistance < lastDistance) {
@@ -65,7 +68,7 @@ function step() {
 		weights[j][1] += weightCorrection[1]; // y-component
 
 		// Draw weight:
-		drawVector(canvas, context, [weights[j][0], weights[j][1]], nodeSize);
+		drawVector(canvas, context, [weights[j][0], weights[j][1]], nodeSize, '#000');
 	}
 
 	// Request new frame:
@@ -97,8 +100,10 @@ function neighbors(vector, winner, margin) {
 	* @param {canvas} context
 	* @param {array} vector
 	* @param {number} nodeSize
+	* @param {string} color
 	*/
-function drawVector(canvas, context, vector, nodeSize) {
+function drawVector(canvas, context, vector, nodeSize, color) {
+	context.fillStyle = color;
 	context.fillRect(vector[0] * canvas.width, vector[1] * canvas.height, nodeSize, nodeSize);
 }
 
