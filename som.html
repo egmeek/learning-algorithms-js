@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/css/materialize.min.css">
 
     <style>
-      canvas { margin: 0 auto; display: block; border: 1px solid #000;}
+      canvas { border: 1px solid #000;}
     </style>
   </head>
 
@@ -18,7 +18,12 @@
     	<div class="col s12">
     		<h1>Self-Organizing Map (SOM) Demo</h1>
         <p>Watch the SOM evenly distribute its weights from being barraged with random inputs over a few minutes; this is indicative of unsupervised learning.</p>
-    	</div>
+        <p>The weights are represented by the black nodes, and the larger teal nodes are the random inputs, frame by frame, that they're trying to categorize.</p>
+
+        <button id="resetButton" class="btn waves-effect waves-light tooltipped" data-position="right" data-delay="50" data-tooltip="Reset the SOM.">
+          Reset
+        </button>
+      </div>
     </div>
 
     <div class="row">
