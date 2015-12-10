@@ -41,7 +41,7 @@ function step() {
 	thisDistance = 1;
 
 	// Draw input:
-	drawVector(canvas, context, input, nodeSize * 2, '#ff0000');
+	drawVector(canvas, context, input, nodeSize * 2, '#4db6ac');
 
 	// Activation and similarity matching:
 	for (var j = 0; j < weights.length; ++j) {
