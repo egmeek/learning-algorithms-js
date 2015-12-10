@@ -1,8 +1,13 @@
 /**
- * @author reesington / codepen.io/reesington
+ * @author Reese Schultz
  */
 
-// Initialize control variables with default values:
+ /**************************
+ ***************************
+ ***PERCEPTRON CONTROLLER***
+ **************************/
+
+// Declare variables:
 var weights = [0.3, 0.1],
 		threshold = 0.2,	// AKA theta
 		numEpochs = 5,
@@ -15,65 +20,20 @@ var weights = [0.3, 0.1],
 		activationName = 'step',
 		operationName = 'or',
 
-// Initialize view variables:
+// Declare (view) variables:
 		tableBody = document.getElementById('tableBody'),
 		tableRow,
 		tableElement,
 		tableElementContent;
 
-// Handle sticky table header:
-$('.responsive-table').floatThead();
-
-// Handle form hide/unhide events for view:
-$('#weight3Box').hide();
-$('#higherDimensionWarning').hide();
-
-$('#dimensions').change(function() {
-	dimensions = parseInt($('#dimensions').val(), 10);
-
-	if ($('#randomizeWeights').is(':checked')) {
-		$('#weight3Box').hide();
-		if (dimensions === 2) $('#higherDimensionWarning').hide();
-		if (dimensions === 3) $('#higherDimensionWarning').show();
-	} else if (dimensions === 2) {
-		$('#weight3Box').hide();
-		$('#higherDimensionWarning').hide();
-	} else if (dimensions === 3) {
-		$('#weight3Box').show();
-		$('#higherDimensionWarning').show();
-	}
-
-	// Must reset floatThead so it adjusts to new positioning:
-	$('.responsive-table').floatThead('destroy');
-	$('.responsive-table').floatThead();
-});
-
-$('#randomizeWeights').change(function(){
-	if ($(this).is(':checked')) {
-		$('#weight1Box').hide();
-		$('#weight2Box').hide();
-		if (dimensions === 3) $('#weight3Box').hide();
-	} else {
-		$('#weight1Box').show();
-		$('#weight2Box').show();
-		if (dimensions === 3) $('#weight3Box').show();
-	}
-
-	// Must reset floatThead so it adjusts to new positioning:
-	$('.responsive-table').floatThead('destroy');
-	$('.responsive-table').floatThead();
-});
-
-// Run program on 'learn' button click:
-$('#learnButton').click(init);
-
 // Run program with default parameters when first opening application:
 init();
 
 /**
- * Runs not only the inherent perceptron learning algorithm, but also validates, resets, cleans up the control variables and view.
+ * Define program.
  */
 function init() {
+	// Validate, clean up control variables and view.
 	if (tableBody.firstChild) { // On initiating from 'learn' button.
 		// Reset and validate numEpochs:
 		if ($('#epochs').val() && $('#epochs').val() >= 0 && $('#epochs').val() <= 1000 && $('#epochs').val() % 1 === 0)
@@ -160,7 +120,7 @@ function init() {
 				for (var k = 0; k <= dimensions - (dimensions - 1); ++k)
 					inputs.push([i, j, k]);
 
-	// Iterate with the actual steps of algorithm:
+	// Iterate with the actual steps of the algorithm:
 	for (var i = 1; i <= numEpochs; ++i) { // For each epoch...
 		for (var j = 0; j < inputs.length; ++j) { // For each combination of inputs in a given epoch...
 			// Get current weights for printing later:
@@ -178,6 +138,62 @@ function init() {
 		}
 	}
 }
+
+/**********************
+***********************
+***PERCEPTRON EVENTS***
+***********************/
+
+// Handle sticky table header:
+$('.responsive-table').floatThead();
+
+// Handle form hide/unhide events for view:
+$('#weight3Box').hide();
+$('#higherDimensionWarning').hide();
+
+$('#dimensions').change(function() {
+	dimensions = parseInt($('#dimensions').val(), 10);
+
+	if ($('#randomizeWeights').is(':checked')) {
+		$('#weight3Box').hide();
+		if (dimensions === 2) $('#higherDimensionWarning').hide();
+		if (dimensions === 3) $('#higherDimensionWarning').show();
+	} else if (dimensions === 2) {
+		$('#weight3Box').hide();
+		$('#higherDimensionWarning').hide();
+	} else if (dimensions === 3) {
+		$('#weight3Box').show();
+		$('#higherDimensionWarning').show();
+	}
+
+	// Must reset floatThead so it adjusts to new positioning:
+	$('.responsive-table').floatThead('destroy');
+	$('.responsive-table').floatThead();
+});
+
+$('#randomizeWeights').change(function(){
+	if ($(this).is(':checked')) {
+		$('#weight1Box').hide();
+		$('#weight2Box').hide();
+		if (dimensions === 3) $('#weight3Box').hide();
+	} else {
+		$('#weight1Box').show();
+		$('#weight2Box').show();
+		if (dimensions === 3) $('#weight3Box').show();
+	}
+
+	// Must reset floatThead so it adjusts to new positioning:
+	$('.responsive-table').floatThead('destroy');
+	$('.responsive-table').floatThead();
+});
+
+// Run program on 'learn' button click:
+$('#learnButton').click(init);
+
+/*********************************
+**********************************
+***PERCEPTRON UTILITY FUNCTIONS***
+**********************************/
 
 /**
  * Add control variable states at a given iteration from an array to the body of an HTML table.

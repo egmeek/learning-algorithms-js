@@ -1,6 +1,11 @@
 /**
- * @author reesington / codepen.io/reesington
+ * @author Reese Schultz
  */
+
+ /**********************
+ ***********************
+ ***GENERAL FUNCTIONS***
+ ***********************/
 
  /**
    * Find Euclidean distance between two vectors.
@@ -40,7 +45,8 @@ function createMatrix(rows, cols, id) {
 
 /**
   * Adds two matrices A and B resulting in C.
-  * @param {array} matrix
+  * @param {array} A
+  * @param {array} B
   * @returns {array}
   */
  function add(A, B) {
@@ -111,8 +117,8 @@ function transpose(matrix) {
 /**
   * Square matrix transposition (should be used if rows = cols)
   * @param {array} matrix
-	* @param {array} rows
-	* @param {array} cols
+	* @param {number} rows
+	* @param {number} cols
   * @returns {array}
   */
 function transposeSquare(matrix, rows, cols) {
@@ -128,8 +134,8 @@ function transposeSquare(matrix, rows, cols) {
 /**
   * Rectangular matrix transposition
   * @param {array} matrix
-	* @param {array} rows
-	* @param {array} cols
+	* @param {number} rows
+	* @param {number} cols
   * @returns {array}
   */
 function transposeRect(matrix, rows, cols) {
@@ -150,8 +156,8 @@ function transposeRect(matrix, rows, cols) {
   * @param {array} arr
   * @returns {array}
   */
-function deepCopy(array) {
-	return JSON.parse(JSON.stringify(array));
+function deepCopy(arr) {
+	return JSON.parse(JSON.stringify(arr));
 }
 
 /**

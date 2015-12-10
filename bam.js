@@ -1,29 +1,30 @@
 /**
- * @author reesington / codepen.io/reesington
+ * @author Reese Schultz
  */
 
-// Canvas setup:
+ /*******************
+ ********************
+ ***BAM CONTROLLER***
+ ********************/
+
+// Declare variables:
 var drawingCanvas = document.getElementById('drawing'),
 		drawingContext = drawingCanvas.getContext('2d'),
 		bamCanvas = document.getElementById('bam'),
 		bamContext = bamCanvas.getContext('2d'),
 		gridSize = 500,
 		stepSize = gridSize / 5,
-		drawing = [
+		valid = false,
+
+		drawing = [ // User drawing; -1's are basically white space.
 			[-1, -1, -1, -1, -1],
 		  [-1, -1, -1, -1, -1],
 		  [-1, -1, -1, -1, -1],
 		  [-1, -1, -1, -1, -1],
 		  [-1, -1, -1, -1, -1]
-		];
+		],
 
-drawGrid(drawingContext);
-drawGrid(bamContext);
-
-var valid = false; // Validity of general execution.
-
-// Set matrices A (input representing characters) and B (output).
-		matrixA = [
+		matrixA = [ // Input set of 5 x 5 matrices.
 			[[-1, 1, 1, 1, -1], // A
 			 [-1, 1, -1, 1, -1],
 			 [-1, 1, 1, 1, -1],
@@ -55,7 +56,7 @@ var valid = false; // Validity of general execution.
 			 [-1, 1, 1, 1, 1]]
 		],
 
-		matrixB = [
+		matrixB = [ // Output set of memory vectors.
 			[[-1, 1, -1, 1, -1]], // A
 
 			[[-1, 1, -1, -1, 1]], // B
@@ -67,16 +68,18 @@ var valid = false; // Validity of general execution.
 			[[-1, 1, -1, -1, -1]] // E
 		];
 
+// Draw 5 x 5 grids on each canvas:
+drawGrid(drawingContext);
+drawGrid(bamContext);
+
 // Check that the matrices have vectors:
-if (matrixA.length > 0 && matrixB.length > 0)
-	valid = true;
+if (matrixA.length > 0 && matrixB.length > 0) valid = true;
 
 // Check that all matrices have the same number of vectors (because they must be paired):
 valid = checkMatrixLength(matrixA, matrixB);
 
 // Check that all vectors belonging to the same set have the same length:
-if (valid && checkVectorLength(matrixA) && checkVectorLength(matrixB))
-	valid = true;
+if (valid && checkVectorLength(matrixA) && checkVectorLength(matrixB)) valid = true;
 
 if (valid === true) {
 	var patternPairs = matrixA.length,
@@ -89,7 +92,11 @@ if (valid === true) {
 	console.log("ERROR: Matrices were not properly inputted.");
 }
 
-// Events:
+/***************
+****************
+***BAM EVENTS***
+****************/
+
 drawingCanvas.addEventListener('contextmenu', function(event) {
 	event.preventDefault();
 }, false);
@@ -126,6 +133,11 @@ drawingCanvas.addEventListener('mousemove', function(event) {
 
 	redraw(drawingContext, drawing);
 }, false);
+
+/**************************
+***************************
+***BAM UTILITY FUNCTIONS***
+***************************/
 
 /**
   * Redraws a given matrix on a given context.
