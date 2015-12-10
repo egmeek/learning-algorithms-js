@@ -7,73 +7,86 @@
 ***SOM CONTROLLER***
 ********************/
 
-// Declare variables:
-var canvas = document.getElementById('som'),
-		context = canvas.getContext('2d'),
-		numWeights = 50,
-		nodeSize = 5,
-		weights = generateRandMatrix(numWeights),
-		learningRate = 0.1,
-		input,
-		winnerIndex,
-		lastDistance,
-		thisDistance,
-		weightCorrection;
-
-// Adjust width and height of canvas visualization:
-canvas.width = window.innerWidth / 3;
-canvas.height = window.innerWidth / 3;
-
 // Start the program:
-step();
+init();
 
-/**
-	* Main program loop.
-	*/
-function step() {
-	// Clear the frame:
-	context.clearRect(0, 0, canvas.width, canvas.height);
+// Define program and its scope:
+function init() {
+	// Declare variables:
+	var canvas = document.getElementById('som'),
+			context = canvas.getContext('2d'),
+			numWeights = 50,
+			nodeSize = 5,
+			weights = generateRandMatrix(numWeights),
+			learningRate = 0.1,
+			input,
+			winnerIndex,
+			lastDistance,
+			thisDistance,
+			weightCorrection;
 
-	// Initialize variables:
-	input = [Math.random(), Math.random()];
-	winnerIndex = 0; // Winning neuron; least distance away from input.
-	lastDistance = 1;
-	thisDistance = 1;
+	// Adjust width and height of canvas visualization:
+	canvas.width = window.innerWidth / 3;
+	canvas.height = window.innerWidth / 3;
 
-	// Draw input:
-	drawVector(canvas, context, input, nodeSize * 2, '#4db6ac');
+	// Start the program loop:
+	step();
 
-	// Activation and similarity matching:
-	for (var j = 0; j < weights.length; ++j) {
-		thisDistance = euclidDist(input, weights[j]);
+	/**
+		* Main program loop.
+		*/
+	function step() {
+		// Clear the frame:
+		context.clearRect(0, 0, canvas.width, canvas.height);
 
-		if (thisDistance < lastDistance) {
-			winnerIndex = j;
-			lastDistance = thisDistance;
+		// Initialize variables:
+		input = [Math.random(), Math.random()];
+		winnerIndex = 0; // Winning neuron; least distance away from input.
+		lastDistance = 1;
+		thisDistance = 1;
+
+		// Draw input:
+		drawVector(canvas, context, input, nodeSize * 2, '#4db6ac');
+
+		// Activation and similarity matching:
+		for (var j = 0; j < weights.length; ++j) {
+			thisDistance = euclidDist(input, weights[j]);
+
+			if (thisDistance < lastDistance) {
+				winnerIndex = j;
+				lastDistance = thisDistance;
+			}
 		}
-	}
 
-	// Learning:
-	for (j = 0; j < weights.length; ++j) {
-		// Find weight correction:
-		weightCorrection = [0, 0];
+		// Learning:
+		for (j = 0; j < weights.length; ++j) {
+			// Find weight correction:
+			weightCorrection = [0, 0];
 
-		if (neighbors(weights[j], weights[winnerIndex], 0.05)) {
-			weightCorrection[0] = learningRate * (input[0] - weights[j][0]); // x-component
-			weightCorrection[1] = learningRate * (input[1] - weights[j][1]); // y-component
+			if (neighbors(weights[j], weights[winnerIndex], 0.05)) {
+				weightCorrection[0] = learningRate * (input[0] - weights[j][0]); // x-component
+				weightCorrection[1] = learningRate * (input[1] - weights[j][1]); // y-component
+			}
+
+			// Update synaptic weights:
+			weights[j][0] += weightCorrection[0]; // x-component
+			weights[j][1] += weightCorrection[1]; // y-component
+
+			// Draw weight:
+			drawVector(canvas, context, [weights[j][0], weights[j][1]], nodeSize, '#000');
 		}
 
-		// Update synaptic weights:
-		weights[j][0] += weightCorrection[0]; // x-component
-		weights[j][1] += weightCorrection[1]; // y-component
-
-		// Draw weight:
-		drawVector(canvas, context, [weights[j][0], weights[j][1]], nodeSize, '#000');
+		// Request new frame:
+		window.requestAnimationFrame(step);
 	}
-
-	// Request new frame:
-	window.requestAnimationFrame(step);
 }
+
+/***************
+****************
+***SOM EVENTS***
+****************/
+
+$('#resetButton').click(init);
 
 /**************************
 ***************************
