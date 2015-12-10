@@ -102,15 +102,16 @@ function draw(canvas, context, weights, nodeSize) {
 }
 
 /**
-	* Generate a randomized matrix with num vectors.
+	* Generate a randomized matrix with num vectors within bound.
 	* @param {number} num
+	* @param {number} bound
 	* @returns {array}
 	*/
 function generateRandMatrix(num) {
 	var matrix = [];
 
 	for (var i = 0; i < num; ++i)
-		matrix.push([Math.random(), Math.random()]); // Between 0 and 1.
+		matrix.push([0.25 + Math.random() / 2, 0.25 + Math.random() / 2]);
 
 	return matrix;
 }
