@@ -17,7 +17,8 @@ var canvas = document.getElementById('som'),
 		input,
 		winnerIndex,
 		lastDistance,
-		thisDistance;
+		thisDistance,
+		weightCorrection;
 
 // Adjust width and height of canvas visualization:
 canvas.width = window.innerWidth / 3;
@@ -30,14 +31,17 @@ step();
 	* Main program loop.
 	*/
 function step() {
+	// Clear the frame:
+	context.clearRect(0, 0, canvas.width, canvas.height);
+
 	// Initialize variables:
 	input = [Math.random(), Math.random()];
 	winnerIndex = 0; // Winning neuron; least distance away from input.
 	lastDistance = 1;
 	thisDistance = 1;
 
-	// Activation and similarity matching:
 	for (var j = 0; j < weights.length; ++j) {
+		// Activation and similarity matching:
 		thisDistance = euclidDist(input, weights[j]);
 
 		if (thisDistance < lastDistance) {
@@ -49,7 +53,7 @@ function step() {
 	// Learning:
 	for (j = 0; j < weights.length; ++j) {
 		// Find weight correction:
-		var weightCorrection = [0, 0];
+		weightCorrection = [0, 0];
 
 		if (neighbors(weights[j], weights[winnerIndex], 0.05)) {
 			weightCorrection[0] = learningRate * (input[0] - weights[j][0]); // x-component
@@ -59,12 +63,12 @@ function step() {
 		// Update synaptic weights:
 		weights[j][0] += weightCorrection[0]; // x-component
 		weights[j][1] += weightCorrection[1]; // y-component
+
+		// Draw weight:
+		drawVector(canvas, context, [weights[j][0], weights[j][1]], nodeSize);
 	}
 
-	// Draw on canvas element:
-	draw(canvas, context, weights, nodeSize);
-
-	// Update frame:
+	// Request new frame:
 	window.requestAnimationFrame(step);
 }
 
@@ -88,17 +92,14 @@ function neighbors(vector, winner, margin) {
 }
 
 /**
-	* Draw a matrix onto the canvas.
+	* Draw a vector onto the canvas.
 	* @param {canvas} canvas
 	* @param {canvas} context
-	* @param {array} weights
+	* @param {array} vector
 	* @param {number} nodeSize
 	*/
-function draw(canvas, context, weights, nodeSize) {
-	context.clearRect(0, 0, canvas.width, canvas.height);
-
-	for (var i = 0; i < weights.length; ++i)
-		context.fillRect(weights[i][0] * canvas.width, weights[i][1] * canvas.height, nodeSize, nodeSize);
+function drawVector(canvas, context, vector, nodeSize) {
+	context.fillRect(vector[0] * canvas.width, vector[1] * canvas.height, nodeSize, nodeSize);
 }
 
 /**
