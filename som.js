@@ -1,7 +1,13 @@
 /**
- * @author reesington / codepen.io/reesington
+ * @author Reese Schultz
  */
 
+/*******************
+********************
+***SOM CONTROLLER***
+********************/
+
+// Declare variables:
 var canvas = document.getElementById('som'),
 		context = canvas.getContext('2d'),
 		numWeights = 50,
@@ -13,10 +19,12 @@ var canvas = document.getElementById('som'),
 		lastDistance,
 		thisDistance;
 
+// Adjust width and height of canvas visualization:
 canvas.width = window.innerWidth / 3;
 canvas.height = window.innerWidth / 3;
 
-step(); // Start the program.
+// Start the program:
+step();
 
 /**
 	* Main program loop.
@@ -53,10 +61,17 @@ function step() {
 		weights[j][1] += weightCorrection[1]; // y-component
 	}
 
+	// Draw on canvas element:
 	draw(canvas, context, weights, nodeSize);
 
+	// Update frame:
 	window.requestAnimationFrame(step);
 }
+
+/**************************
+***************************
+***SOM UTILITY FUNCTIONS***
+***************************/
 
 /**
 	* Rectangular neighborhood function to determine if vector's within bounds centered on winner.
