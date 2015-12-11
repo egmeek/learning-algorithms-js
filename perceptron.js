@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @author Reese Schultz
  */
