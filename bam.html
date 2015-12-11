@@ -14,20 +14,32 @@
     	<div class="col s12">
     		<h1>Bidirectional Associative Memory (BAM) Demo</h1>
     		<p>Draw one of the first five capital, English alphabetical characters (A, B, C, D, E) to test if this algorithm recognizes it.</p>
-        <p>Left click and drag to draw, right click and drag to delete.</p>
+        <p>Left click to draw; delete drawing with reset button.</p>
     	</div>
     </div>
 
-    <div class="row">
-    	<div style="text-align: center; border-right: 1px dashed #000;" class="col s6">
-    		<h2>Your drawing:</h1>
-    		<canvas style="border: 3px solid #000; margin-bottom: 30px;" id="drawing" width="500" height="500"></canvas>
-    	</div>
+    <div style="margin-left: -10px; text-align: center;" class="row">
+      <div class="col s12">
+        <button id="resetButton" class="btn waves-effect waves-light tooltipped" data-position="right" data-delay="50" data-tooltip="Reset the SOM.">
+          Reset
+        </button>
+      </div>
+    </div>
 
-      <div style="text-align: center;" class="col s6">
-    		<h2>What BAM thinks:</h1>
-    		<canvas style="border: 3px solid #000;" id="bam" width="500" height="500"></canvas>
-    	</div>
+    <div class="row">
+      <div class="col s6">
+      	<div style="text-align: center; border-right: 1px dashed #000;">
+      		<h2>Your drawing:</h1>
+      		<canvas style="border: 3px solid #000; margin-bottom: 30px;" id="drawing" width="500" height="500"></canvas>
+      	</div>
+      </div>
+
+      <div class="col s6">
+        <div style="text-align: center;">
+      		<h2>What BAM thinks:</h1>
+      		<canvas style="border: 3px solid #000;" id="bam" width="500" height="500"></canvas>
+      	</div>
+      </div>
     </div>
 
     <!-- Vendor JS -->
