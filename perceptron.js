@@ -76,10 +76,10 @@
 			else operationName = 'or';
 
 			// Reset and validate weights:
-			weights = [].splice(0);
+			weights = deepCopy([]);
 
 			if ($('#randomizeWeights').is(':checked')) {
-				weights = [parseFloat((Math.random() - 0.5).toFixed(3)), parseFloat((Math.random() - 0.5).toFixed(3))].splice(0);
+				weights = deepCopy([parseFloat((Math.random() - 0.5).toFixed(3)), parseFloat((Math.random() - 0.5).toFixed(3))]);
 				if (dimensions === 3) weights.push(parseFloat((Math.random() - 0.5).toFixed(3)));
 			} else {
 				if (parseFloat($('#weight1').val()) && parseFloat($('#weight1').val()) >= -0.5 && parseFloat($('#weight1').val()) <= 0.5)
@@ -105,7 +105,7 @@
 			}
 
 			// Reset inputs:
-			inputs = [].splice(0);
+			inputs = deepCopy([]);
 
 			// Reset table:
 			while (tableBody.firstChild)
@@ -133,7 +133,7 @@
 				desiredOutput = calcDesiredOutput(inputs[j], operationName);
 				actualOutput = activate(inputs[j], weights, threshold, activationName);
 				error = calcError(desiredOutput, actualOutput);
-				weights = trainWeight(inputs[j], weights, threshold, learningRate, error).splice(0);
+				weights = deepCopy(trainWeight(inputs[j], weights, threshold, learningRate, error));
 
 				// Additionally, update view:
 				tableRow = document.createElement('tr');
