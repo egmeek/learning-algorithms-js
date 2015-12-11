@@ -211,4 +211,65 @@
 			tableBody.appendChild(tableRow);
 		}
 	}
+
+	/**
+	 * Trains each weight at dimension i.
+	 * @param {array} inputs
+	 * @param {array} weights
+	 * @param {number} threshold
+	 * @param {number} learningRate
+	 * @param {number} error
+	 * @returns {array}
+	 */
+	function trainWeight(inputs, weights, threshold, learningRate, error) {
+		var newWeights = [];
+
+		for (var i = 0; i < inputs.length; ++i)
+			newWeights.push(parseFloat((weights[i] + learningRate * inputs[i] * error).toFixed(3)));
+
+		return newWeights;
+	}
+
+	/**
+	 * Combines inputs and weights at a dimension i to later perform a given activation function.
+	 * @param {array} inputs
+	 * @param {array} weights
+	 * @param {number} threshold
+	 * @param {string} type
+	 * @returns {number}
+	 */
+	function activate(inputs, weights, threshold, type) {
+		var output = 0;
+
+		for (var i = 0; i < inputs.length; ++i)
+			output += inputs[i] * weights[i];
+
+		output -= threshold;
+
+		// Groom output according to type of applied function:
+		if (type === 'step') return step(output);
+		else if (type === 'sign') return sign(output);
+		else if (type === 'sigmoid') return sigmoid(output);
+		else if (type === 'linear') return output.toFixed(3);
+	}
+
+	/**
+	 * Use the inputs to calculate the desired output of logical AND, OR, and XOR by specifying type.
+	 * @param {array} inputs
+	 * @param {string} type
+	 * @returns {array}
+	 */
+	function calcDesiredOutput(inputs, type) {
+		var output = 0;
+
+		for (var i = 0; i < inputs.length - 1; ++i) {
+			if (!output) output = inputs[i];
+
+			if (type === 'or') output = output || inputs[i + 1];
+			else if (type === 'and') output = output && inputs[i + 1];
+			else if (type === 'xor') output = xor(output, inputs[i + 1]);
+		}
+
+		return output;
+	}
 })();
